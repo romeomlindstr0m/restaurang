@@ -1,0 +1,3 @@
+.no-border-list .list-group-item {
+    border: none !important;
+}
