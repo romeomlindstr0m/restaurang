@@ -1,16 +1,3 @@
-<?php
-  require_once "includes/connection.php";
-
-  $stmt = $pdo->prepare('SELECT * FROM categories');
-  $stmt->execute();
-  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-  $varmratter_category = 1;
-  $stmt = $pdo->prepare('SELECT * FROM items WHERE items_category = ?');
-  $stmt->bindParam(1, $varmratter_category, PDO::PARAM_STR);
-  $stmt->execute();
-  $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 <!doctype html>
 <html lang="fi">
   <head>
