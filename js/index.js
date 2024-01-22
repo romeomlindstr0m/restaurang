@@ -1,5 +1,22 @@
 let inventoryItems;
 
+function printInventory(categoryID) {
+    let inventoryContainer = document.getElementById("inventoryContainer");
+    let htmlContent = "";
+    for (let i = 0; i < inventoryItems.length; i++) {
+        if (inventoryItems[i].items_category === categoryID) {
+            htmlContent += '<div class="card mt-2"> <div class="card-body"> <h5 class="card-title">' + inventoryItems[i].items_name + '</h5>';
+            
+            if (inventoryItems[i].items_description !== null) {
+                htmlContent += '<p class="card-text">' + inventoryItems[i].items_description + '</p>';
+            }
+
+            htmlContent += '</div> </div>';
+        }
+    }
+    inventoryContainer.innerHTML = htmlContent;
+}
+
 async function fetchInventory() {
     try {
         const response = await fetch("http://localhost/restaurang/api/InventoryAPI.php");
@@ -8,17 +25,10 @@ async function fetchInventory() {
         }
         const inventory = await response.json();
         inventoryItems = inventory;
+        printInventory(1);
     } catch (error) {
         console.error("Could not fetch inventory:", error);
     }
 }
 
 fetchInventory();
-
-function printInventory(categoryID) {
-    for (let i = 0; i < inventoryItems.length; i++) {
-        if (inventoryItems[i].items_category === categoryID) {
-        console.log(inventoryItems[i]);
-        }
-    }
-}
