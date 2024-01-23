@@ -2,7 +2,16 @@ let inventoryItems;
 let orderItems;
 
 function addItemToOrder(itemID) {
-    console.log(itemID);
+    let objectItemID = 0;
+    for (let i = 0; i < inventoryItems.length; i++) {
+        if (inventoryItems[i].items_ID == itemID) {
+            objectItemID = i;
+            break;
+        }
+    }
+    let selectionModal = new bootstrap.Modal(document.getElementById('selectionModal'));
+    document.getElementById('modalTitle').innerHTML = inventoryItems[objectItemID].items_name;
+    selectionModal.show();
 }
 
 function printInventory(categoryID) {
