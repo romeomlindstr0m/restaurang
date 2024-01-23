@@ -1,3 +1,13 @@
 .no-border-list .list-group-item {
     border: none !important;
 }
+
+.list-group-horizontal {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.list-group-item {
+    display: inline-block;
+}
