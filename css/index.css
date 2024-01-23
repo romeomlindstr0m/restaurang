@@ -11,3 +11,7 @@
 .list-group-item {
     display: inline-block;
 }
+
+.btn {
+    border-radius: 0;
+}
