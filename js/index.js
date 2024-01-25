@@ -9,6 +9,11 @@ function addItemToOrder(itemID) {
             break;
         }
     }
+    if (inventoryItems[objectItemID].items_category === 2 || inventoryItems[objectItemID].items_category === 3) {
+        document.getElementById('potatoSelectionContainer').style.display = "block";
+    } else {
+        document.getElementById('potatoSelectionContainer').style.display = "none";
+    }
     let selectionModal = new bootstrap.Modal(document.getElementById('selectionModal'));
     document.getElementById('modalTitle').innerHTML = inventoryItems[objectItemID].items_name;
     selectionModal.show();
