@@ -66,7 +66,9 @@
                   </div>
                 </div>
               </div>
-              <hr id="selectionHorizontalDivider">
+              <div class="container mt-3" id="donenessSelectionHeading">
+                <h5>Stekningsgrad</h5>
+              </div>
               <div class="container mt-3" id="donenessSelectionContainer">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="donenessSelectionRadios" id="donenessSelectionRadios1" value="potatoOption3" checked>
@@ -87,7 +89,12 @@
                   </label>
                 </div>
               </div>
-              <h5 id="noAvailableItemsText">Inga tillgängliga alternativ</h5>
+              <div class="container mt-3">
+                <div class="mb-3">
+                  <label for="additionalInformation" class="form-label"><h5>Tilläggsinfo</h5></label>
+                  <textarea class="form-control" id="additionalInformation" rows="3"></textarea>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

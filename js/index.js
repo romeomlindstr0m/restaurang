@@ -11,24 +11,17 @@ function addItemToOrder(itemID) {
     }
     if (inventoryItems[objectItemID].items_potato_options == 1) {
         document.getElementById('potatoSelectionContainer').style.display = "block";
-        document.getElementById('selectionHorizontalDivider').style.display = "block";
-        document.getElementById('noAvailableItemsText').style.display = "none";
     } else {
         document.getElementById('potatoSelectionContainer').style.display = "none";
-        document.getElementById('selectionHorizontalDivider').style.display = "none";
-        document.getElementById('noAvailableItemsText').style.display = "none";
     }
 
     if (inventoryItems[objectItemID].items_doneness_options == 1) {
         document.getElementById('donenessSelectionContainer').style.display = "flex";
+        document.getElementById('donenessSelectionHeading').style.display = "block";
         document.getElementById('donenessSelectionContainer').style.justifyContent = "center";
-        document.getElementById('selectionHorizontalDivider').style.display = "block";
     } else {
         document.getElementById('donenessSelectionContainer').style.display = "none";
-        document.getElementById('selectionHorizontalDivider').style.display = "none";
-    }
-    if (inventoryItems[objectItemID].items_potato_options == 0 && inventoryItems[objectItemID].items_doneness_options == 0) {
-        document.getElementById('noAvailableItemsText').style.display = "block";
+        document.getElementById('donenessSelectionHeading').style.display = "none";
     }
     let selectionModal = new bootstrap.Modal(document.getElementById('selectionModal'));
     document.getElementById('modalTitle').innerHTML = inventoryItems[objectItemID].items_name;
