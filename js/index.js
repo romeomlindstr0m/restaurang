@@ -31,17 +31,29 @@ function addItemToOrder(itemID) {
 function printInventory(categoryID) {
     let inventoryContainer = document.getElementById("inventoryContainer");
     let htmlContent = "";
-    for (let i = 0; i < inventoryItems.length; i++) {
-        if (inventoryItems[i].items_category === categoryID) {
-            htmlContent += '<div class="card mt-2"> <span onclick="addItemToOrder(' + inventoryItems[i].items_ID + ')"> <div class="card-body"> <h5 class="card-title">' + inventoryItems[i].items_name + '</h5>';
-            
-            if (inventoryItems[i].items_description !== null) {
-                htmlContent += '<p class="card-text">' + inventoryItems[i].items_description + '</p>';
-            }
-
-            htmlContent += '</div> </span> </div>';
+    Object.values(inventoryItems).forEach(item => {
+        if (item.items_category == categoryID) {
+        let itemName = item.items_name || "";
+        let itemDescription = item.items_description || "";
+        let itemPrice = item.items_price || "";
+        htmlContent += `<span onclick="addItemToOrder(` + item.items_ID + `)">
+                            <div class="card mt-2">
+                                <div class="card-body">
+                                    <div class="row">    
+                                        <div class="col">
+                                            <h5 class="card-title">${itemName}</h5>
+                                            <p class="card-text">${itemDescription}</p>
+                                        </div>
+                                    
+                                        <div class="col d-flex justify-content-end align-items-center">
+                                            <h5>${itemPrice} €</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>`;
         }
-    }
+    });
     inventoryContainer.innerHTML = htmlContent;
 }
 
