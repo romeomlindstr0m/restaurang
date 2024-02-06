@@ -1,7 +1,29 @@
 let inventoryItems;
-let orderItems;
+let orderItems = [];
 
-function addItemToOrder(itemID) {
+function addItemToOrder() {
+    let confirmBtn = document.getElementById('confirmOrder');
+    let itemID = confirmBtn.getAttribute('order-object-id');
+    let itemAmount = document.getElementById('amountInput').value;
+    let itemAdditionalInformation = document.getElementById('additionalInformation').value;
+    let itemPotatoOption = null;
+    let itemDonenessOption = null;
+
+    if (inventoryItems[itemID].items_potato_options == 1) {
+        let potatoSelectionRadio = document.querySelector('input[name="potatoSelectionRadios"]:checked');
+        itemPotatoOption = potatoSelectionRadio.value;
+    }
+
+    if (inventoryItems[itemID].items_doneness_options == 1) {
+        let donenessSelectionRadio = document.querySelector('input[name="donenessSelectionRadios"]:checked');
+        itemDonenessOption = donenessSelectionRadio.value;
+    }
+
+    let order = {itemID, itemAmount, itemAdditionalInformation, itemPotatoOption, itemDonenessOption};
+    orderItems.push(order);
+}
+
+function displayItemToOrder(itemID) {
     let objectItemID = 0;
     for (let i = 0; i < inventoryItems.length; i++) {
         if (inventoryItems[i].items_ID == itemID) {
@@ -25,8 +47,12 @@ function addItemToOrder(itemID) {
     }
     let selectionModal = new bootstrap.Modal(document.getElementById('selectionModal'));
     document.getElementById('modalTitle').innerHTML = inventoryItems[objectItemID].items_name;
+    let confirmBtn = document.getElementById('confirmOrder');
+    confirmBtn.setAttribute('order-object-id', objectItemID);
     selectionModal.show();
 }
+
+document.getElementById('confirmOrder').addEventListener("click", addItemToOrder);
 
 function printInventory(categoryID) {
     let inventoryContainer = document.getElementById("inventoryContainer");
@@ -36,7 +62,7 @@ function printInventory(categoryID) {
         let itemName = item.items_name || "";
         let itemDescription = item.items_description || "";
         let itemPrice = item.items_price || "";
-        htmlContent += `<span onclick="addItemToOrder(` + item.items_ID + `)">
+        htmlContent += `<span onclick="displayItemToOrder(` + item.items_ID + `)">
                             <div class="card mt-2">
                                 <div class="card-body">
                                     <div class="row">    
