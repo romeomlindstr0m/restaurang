@@ -1,6 +1,13 @@
 let inventoryItems;
 let orderItems = [];
 
+function sendOrderToSessionStorage() {
+    const orders = JSON.stringify(orderItems);
+    sessionStorage.setItem('orderItems', orders);
+}
+
+document.getElementById('orderConfirmationButton').addEventListener('click', sendOrderToSessionStorage);
+
 function displayOrderList() {
     let inventoryContainer = document.getElementById("ordersModalBody");
     let htmlContent = "";
@@ -30,7 +37,7 @@ function displayOrderList() {
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <h5 class="card-title">${itemName} (x${item.itemAmount})</h5>
+                    <h5 class="card-title">${itemName} (x${item.itemAmount}) <i class="bi bi-trash ms-3" onclick="removeItemFromOrder(${index})"></i></h5>
                     </div>
                     <div class="col d-flex justify-content-end align-items-center">
                         <h5>${itemTotalPrice} €</h5>
@@ -50,13 +57,13 @@ function displayOrderList() {
                             <div class="accordion-body">`;
 
             if (itemAdditionalInformation) {
-                htmlContent += `<strong>Additional Information:</strong> ${itemAdditionalInformation}<br>`;
+                htmlContent += `<strong>Tilläggsinformation:</strong> ${itemAdditionalInformation}<br>`;
             }
             if (itemDonenessOption) {
-                htmlContent += `<strong>Doneness:</strong> ${itemDonenessOption}<br>`;
+                htmlContent += `<strong>Stekningsgrad:</strong> ${itemDonenessOption}<br>`;
             }
             if (itemPotatoOption) {
-                htmlContent += `<strong>Potato Option:</strong> ${itemPotatoOption}<br>`;
+                htmlContent += `<strong>Potatis alternativ:</strong> ${itemPotatoOption}<br>`;
             }
 
             htmlContent += `
@@ -73,6 +80,10 @@ function displayOrderList() {
     inventoryContainer.innerHTML = htmlContent;
 }
 
+function removeItemFromOrder(index) {
+    orderItems.splice(index, 1);
+    displayOrderList();
+}
 
 function addItemToOrder() {
     let confirmBtn = document.getElementById('confirmOrder');

@@ -23,3 +23,8 @@
 #order_button {
     height: 7vh !important;
 }
+
+.bi-trash {
+    cursor: pointer;
+    color: red;
+}
