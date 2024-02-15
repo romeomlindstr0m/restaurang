@@ -4,11 +4,16 @@ let orderItems = [];
 function sendOrderToSessionStorage() {
     const orderCount = getOrderCount() + 1;
     const orderKey = `order${orderCount}`;
-    const orders = JSON.stringify(orderItems);
+    const orderWithState = {
+        items: orderItems,
+        order_state: "awaiting_work"
+    };
+    const orders = JSON.stringify(orderWithState);
     sessionStorage.setItem(orderKey, orders);
     sessionStorage.setItem('orderCount', orderCount.toString());
     orderItems = [];
 }
+
 function getOrderCount() {
     const count = sessionStorage.getItem('orderCount');
     return count ? parseInt(count, 10) : 0;
