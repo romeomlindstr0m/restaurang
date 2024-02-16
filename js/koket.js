@@ -30,10 +30,10 @@ async function printSessionOrders() {
         document.getElementById(containerId).innerHTML = '';
     });
 
-    const orderCount = parseInt(sessionStorage.getItem('orderCount'), 10);
+    const orderCount = parseInt(localStorage.getItem('orderCount'), 10);
     for (let i = 1; i <= orderCount; i++) {
         const key = `order${i}`;
-        const orderStr = sessionStorage.getItem(key);
+        const orderStr = localStorage.getItem(key);
         
         const order = JSON.parse(orderStr);
         const containerId = containers[order.order_state];
@@ -51,6 +51,7 @@ async function printSessionOrders() {
         
             // Check if the item exists at that index
             if (inventoryItem) {
+                console.log("Hello World");
                 const itemElement = document.createElement('div');
                 itemElement.classList.add('item');
         

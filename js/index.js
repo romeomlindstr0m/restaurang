@@ -1,7 +1,7 @@
 let inventoryItems;
 let orderItems = [];
 
-function sendOrderToSessionStorage() {
+function sendOrderToLocalStorage() {
     const orderCount = getOrderCount() + 1;
     const orderKey = `order${orderCount}`;
     const orderWithState = {
@@ -9,17 +9,17 @@ function sendOrderToSessionStorage() {
         order_state: "awaiting_work"
     };
     const orders = JSON.stringify(orderWithState);
-    sessionStorage.setItem(orderKey, orders);
-    sessionStorage.setItem('orderCount', orderCount.toString());
+    localStorage.setItem(orderKey, orders);
+    localStorage.setItem('orderCount', orderCount.toString());
     orderItems = [];
 }
 
 function getOrderCount() {
-    const count = sessionStorage.getItem('orderCount');
+    const count = localStorage.getItem('orderCount');
     return count ? parseInt(count, 10) : 0;
 }
 
-document.getElementById('orderConfirmationButton').addEventListener('click', sendOrderToSessionStorage);
+document.getElementById('orderConfirmationButton').addEventListener('click', sendOrderToLocalStorage);
 
 function displayOrderList() {
     let inventoryContainer = document.getElementById("ordersModalBody");
