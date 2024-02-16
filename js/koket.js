@@ -15,6 +15,16 @@ async function fetchInventory() {
 
 fetchInventory();
 
+async function updateOrderState(orderKey, newState) {
+    const orderStr = localStorage.getItem(orderKey);
+    if (orderStr) {
+        const order = JSON.parse(orderStr);
+        order.order_state = newState;
+        localStorage.setItem(orderKey, JSON.stringify(order));
+        printSessionOrders(); // Refresh the display after state update
+    }
+}
+
 async function printSessionOrders() {
     await fetchInventory(); // Ensure inventory is fetched
 
@@ -27,7 +37,7 @@ async function printSessionOrders() {
 
     // Clear existing order details to avoid duplication
     Object.values(containers).forEach(containerId => {
-        document.getElementById(containerId).innerHTML = '';
+        document.getElementById(containerId).innerHTML = '<div class="row"></div>'; // Prepare a row container
     });
 
     const orderCount = parseInt(localStorage.getItem('orderCount'), 10);
@@ -39,38 +49,40 @@ async function printSessionOrders() {
         const containerId = containers[order.order_state];
         if (!containerId) {
             console.error(`Unknown order state for key ${key}: ${order.order_state}`);
-            continue; // If the order state doesn't match, skip this order
+            continue; // Skip this order if the state doesn't match
         }
 
-        const orderDiv = document.createElement('div');
-        orderDiv.classList.add('order', `order-${i}`);
-
         order.items.forEach(item => {
-            const itemIndex = parseInt(item.itemID, 10); // Convert itemID to an integer index
-            const inventoryItem = inventoryItems.find(it => it.items_ID === item.itemID);
+            const itemIndex = parseInt(item.itemID, 10);
+            const inventoryItem = inventoryItems[itemIndex];
         
-            // Check if the item exists at that index
             if (inventoryItem) {
-                console.log("Hello World");
-                const itemElement = document.createElement('div');
-                itemElement.classList.add('item');
-        
-                itemElement.innerHTML = `
-                    <p>Item Name: ${inventoryItem.items_name}</p>
-                    <p>Amount: ${item.itemAmount}</p>
-                    <p>Additional Information: ${item.itemAdditionalInformation || 'None'}</p>
+                const card = document.createElement('div');
+                card.classList.add('card', 'col-sm-4');
+                let buttonsHTML = '';
+                if (order.order_state !== 'awaiting_work') {
+                    buttonsHTML += `<button class="btn btn-primary mt-2" onclick="updateOrderState('${key}', 'awaiting_work')">Flytta till väntande</button>`;
+                }
+                if (order.order_state !== 'undergoing_work') {
+                    buttonsHTML += `<button class="btn btn-secondary mt-2" onclick="updateOrderState('${key}', 'undergoing_work')">Flytta till påbörjade</button>`;
+                }
+                if (order.order_state !== 'completed') {
+                    buttonsHTML += `<button class="btn btn-success mt-2" onclick="updateOrderState('${key}', 'completed')">Flytta till slutförda</button>`;
+                }
+
+                card.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">Item Name: ${inventoryItem.items_name}</h5>
+                        <p class="card-text">Amount: ${item.itemAmount}</p>
+                        <p class="card-text">Additional Information: ${item.itemAdditionalInformation || 'None'}</p>
+                        <div class="card-buttons">${buttonsHTML}</div>
+                    </div>
                 `;
-        
-                orderDiv.appendChild(itemElement);
-            } else {
-                // If there is no item at that index, display a not found message
-                const itemElement = document.createElement('p');
-                itemElement.textContent = `Item with index ${itemIndex} not found`;
-                orderDiv.appendChild(itemElement);
+
+                document.querySelector(`#${containerId} .row`).appendChild(card);
             }
         });
     }
 }
-        
 
 printSessionOrders();
